@@ -64,6 +64,15 @@ public class MainActivity extends Activity {
 				+ String.valueOf(System.currentTimeMillis()) + ".jpg";
 		File imageFile = new File(imageFilePath);
 		imageFileUri = Uri.fromFile(imageFile);
+		
+		Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+		//intent extra usefu for sending information between apps
+		//big limitation, cant send job object through intent, you have to seriaize, put into intent, deserialize and then creates a coopy
+		//cant send references to java objects through them
+		
+		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+		//requestCode is an arbirtrary number for out own tracking
 
 		// TODO: Put in the intent in the tag MediaStore.EXTRA_OUTPUT the URI
 		
@@ -74,6 +83,22 @@ public class MainActivity extends Activity {
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO: Handle the results from CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE
+		if(requestCode==CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
+			if(resultCode==RESULT_OK){
+				TextView tv=(TextView) findViewById(R.id.status);
+				tv.setText("Photo OK");
+				ImageButton ib=(ImageButton) findViewById(R.id.TakeAPhoto);
+				Drawable phot=Drawable.createFromPath(imageFileUri.getPath());//needs a path not a uri
+				ib.setImageDrawable(phot);
+			}else if (resultCode==RESULT_CANCELED){
+				TextView tv=(TextView) findViewById(R.id.status);
+				tv.setText("PHOTO CANCEL");
+				
+			}else{
+				TextView tv=(TextView) findViewById(R.id.status);
+				tv.setText("Photo...IDK...");
+			}
+		}
 		
 		// TODO: Handle the cases for RESULT_OK, RESULT_CANCELLED, and others
 		

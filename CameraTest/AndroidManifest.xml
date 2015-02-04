@@ -2,13 +2,16 @@
     package="com.example.cameratest"
     android:versionCode="1"
     android:versionName="1.0" >
-
+	
     <uses-sdk
         android:minSdkVersion="12"
         android:targetSdkVersion="17" />
     
+    <uses-permission android:name="android.permission.CAMERA" />
+    //GIVES US PERMISSION TO ACCESS PHONE
     <!-- Add permission for camera (android.permission.CAMERA) -->
-    
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        
     <!-- Add permission for writing to external storage (android.permission.WRITE_EXTERNAL_STORAGE) -->
     
     <application
